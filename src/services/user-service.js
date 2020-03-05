@@ -1,6 +1,6 @@
 import axios from "../plugins/axios";
 function getTotalLoan(){
-   return axios.get("/finacials");
+   return axios.get("/financials");
 }
 
 function getUserList(){
@@ -9,7 +9,7 @@ function getUserList(){
 }
 
 function getUserByName(name){
-  return axios.get(`users/${name}`)
+  return axios.get(`/users/search?name=${name}`);
 }
 
 
