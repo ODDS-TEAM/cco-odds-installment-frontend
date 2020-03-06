@@ -10,24 +10,26 @@
       <v-col cols="4">
         <v-card class="mx-auto" max-width="344" height="150">
           <v-card-title class="justify-center font-weight-bold headline">ยอดคืนทั้งหมด</v-card-title>
-          <v-card-text class="headline font-weight-medium">{{allLoan.totalPaidAmount | toFixedTwoDigit}}</v-card-text>
+          <v-card-text
+            class="headline font-weight-medium"
+          >{{allLoan.totalPaidAmount | toFixedTwoDigit}}</v-card-text>
         </v-card>
       </v-col>
       <v-col cols="4">
         <v-card class="mx-auto" max-width="344" height="150">
           <v-card-title class="justify-center font-weight-bold headline">ยอดหนี้คงเหลือ</v-card-title>
-          <v-card-text class="headline font-weight-medium">{{allLoan.totalRemainingAmount | toFixedTwoDigit}}</v-card-text>
+          <v-card-text
+            class="headline font-weight-medium"
+          >{{allLoan.totalRemainingAmount | toFixedTwoDigit}}</v-card-text>
         </v-card>
       </v-col>
     </v-row>
     <div class="d-flex justify-center mt-10">
       <div class="search mt-10">
-        <v-text-field v-model="serach" label="ค้นหารายชื่อ" outlined 
-        :rules="{}"
-        ></v-text-field>
+        <v-text-field v-model="serach" outlined :rules="[rules.min]"></v-text-field>
       </div>
       <div class="ma-10">
-        <v-btn @click="serachUser(serach)"  class="text-justify" x-large color="success">ค้นหา</v-btn>
+        <v-btn @click="serachUser(serach)" class="text-justify" x-large color="success">ค้นหา</v-btn>
       </div>
     </div>
     <div class="table-width mt-10">
@@ -38,14 +40,13 @@
         class="elevation-3"
         hide-default-footer
       >
-        <template  v-slot:item.name="{ item }">{{item.firstName}} {{item.lastName}}</template>
-        <template  v-slot:item.buttun="{  }">
+        <template v-slot:item.name="{ item }">{{item.firstName}} {{item.lastName}}</template>
+        <template v-slot:item.buttun>
           <v-chip color="green" dark>รายละเอียด</v-chip>
         </template>
-        <template v-slot:item.totalLoan="{item}">{{item.totalLoan | toFixedTwoDigit}}  </template>
-        <template v-slot:item.paidAmount="{item}">{{item.paidAmount | toFixedTwoDigit}}  </template>
-        <template v-slot:item.remainingAmount="{item}">{{item.remainingAmount | toFixedTwoDigit}}  </template>
-        
+        <template v-slot:item.totalLoan="{item}">{{item.totalLoan | toFixedTwoDigit}}</template>
+        <template v-slot:item.paidAmount="{item}">{{item.paidAmount | toFixedTwoDigit}}</template>
+        <template v-slot:item.remainingAmount="{item}">{{item.remainingAmount | toFixedTwoDigit}}</template>
       </v-data-table>
     </div>
   </div>
@@ -69,18 +70,9 @@ export default {
         { text: 'ยอดหนี้คงเหลือ', value: 'remainingAmount', class: "title font-weight-bold" },
         { text: '', value: 'buttun', class: "title font-weight-bold" },
       ],
-      muckup: {
-        list: {
-          firstname: "isaman",
-          lastname: "s. nam",
-          lone: 30000.00,
-
-
-        }
-
-
+      rules: {
+        min: v => v.length >= 3 || 'โปรดกรอกชื่ออย่างน้อย 3 ตัวอักษร',
       },
-
       allLoan: {
         "totalDebt": 0, "totalPaidAmount": 0, "totalRemainingAmount": 0
       },
@@ -90,7 +82,7 @@ export default {
   },
   watch: {
     serach: function (value) {
-     if (value.length == 0) {
+      if (value.length == 0) {
         this.getUserList()
       }
 
@@ -111,11 +103,10 @@ export default {
     getFinancials() {
       userService.getTotalLoan().then(res => {
         this.allLoan = res.data[0]
-      
+
       })
     },
     serachUser(name) {
-      
       if (name.length >= 3) {
         userService.getUserByName(name).then(res => {
           this.userList = res.data

@@ -9,7 +9,7 @@ function getUserList(){
 }
 
 function getUserByName(name){
-  return axios.get(`users/${name}`)
+  return axios.get(`/users/search?name=${name}`);
 }
 
 
