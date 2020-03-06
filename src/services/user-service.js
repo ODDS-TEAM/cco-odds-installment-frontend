@@ -1,6 +1,6 @@
 import axios from "../plugins/axios";
 function getTotalLoan(){
-   return axios.get("/finacials");
+   return axios.get("/financials");
 }
 
 function getUserList(){

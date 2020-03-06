@@ -115,7 +115,6 @@ export default {
       })
     },
     serachUser(name) {
-      console.log(name);
       
       if (name.length >= 3) {
         userService.getUserByName(name).then(res => {
