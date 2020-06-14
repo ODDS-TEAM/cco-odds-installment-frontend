@@ -4,13 +4,13 @@
       <v-col cols="4">
         <v-card class="mx-auto" max-width="344" height="150">
           <v-card-title class="justify-center font-weight-bold headline">{{loan.title}}</v-card-title>
-          <v-card-text class="headline font-weight-medium">{{loan.total | toFixedTwoDigit}}</v-card-text>
+          <v-card-text class="headline font-weight-medium">{{loan.total | currency}}</v-card-text>
         </v-card>
       </v-col>
       <v-col cols="4">
         <v-card class="mx-auto" max-width="344" height="150">
           <v-card-title class="justify-center font-weight-bold headline">คืนแล้ว</v-card-title>
-          <v-card-text class="headline font-weight-medium">{{remainingAmount | toFixedTwoDigit}}</v-card-text>
+          <v-card-text class="headline font-weight-medium">{{remainingAmount | currency}}</v-card-text>
         </v-card>
       </v-col>
       <v-col cols="4">
@@ -18,7 +18,7 @@
           <v-card-title class="justify-center font-weight-bold headline">คงเหลือ</v-card-title>
           <v-card-text
             class="headline font-weight-medium"
-          >{{loan.total - remainingAmount | toFixedTwoDigit}}</v-card-text>
+          >{{loan.total - remainingAmount | currency}}</v-card-text>
         </v-card>
       </v-col>
     </v-row>

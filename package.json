@@ -13,6 +13,7 @@
     "core-js": "^3.6.4",
     "vee-validate": "^3.2.5",
     "vue": "^2.6.11",
+    "vue-currency-filter": "^5.1.0",
     "vue-router": "^3.1.5",
     "vuetify": "^2.2.11"
   },
