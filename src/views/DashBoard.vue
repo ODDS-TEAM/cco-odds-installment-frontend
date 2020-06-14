@@ -3,13 +3,13 @@
     <v-row justfy="center">
       <v-col cols="4">
         <v-card class="mx-auto" max-width="344" height="150">
-          <v-card-title class="justify-center font-weight-bold headline">ยอดหนี้ทั้งหมด</v-card-title>
+          <v-card-title class="justify-center font-weight-bold headline">รวมทั้งหมด</v-card-title>
           <v-card-text class="headline font-weight-medium">{{allLoan.totalDebt | toFixedTwoDigit}}</v-card-text>
         </v-card>
       </v-col>
       <v-col cols="4">
         <v-card class="mx-auto" max-width="344" height="150">
-          <v-card-title class="justify-center font-weight-bold headline">ยอดคืนทั้งหมด</v-card-title>
+          <v-card-title class="justify-center font-weight-bold headline">คืนแล้ว</v-card-title>
           <v-card-text
             class="headline font-weight-medium"
           >{{allLoan.totalPaidAmount | toFixedTwoDigit}}</v-card-text>
@@ -17,7 +17,7 @@
       </v-col>
       <v-col cols="4">
         <v-card class="mx-auto" max-width="344" height="150">
-          <v-card-title class="justify-center font-weight-bold headline">ยอดหนี้คงเหลือ</v-card-title>
+          <v-card-title class="justify-center font-weight-bold headline">คงเหลือ</v-card-title>
           <v-card-text
             class="headline font-weight-medium"
           >{{allLoan.totalDebt - allLoan.totalPaidAmount | toFixedTwoDigit}}</v-card-text>

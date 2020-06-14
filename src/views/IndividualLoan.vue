@@ -112,7 +112,7 @@ export default {
   methods: {
     getLoanById() {
       return loanService.getLoanById(this.$route.params.id).then(loan => {
-        this.loan.installments.forEach(tnx => {
+        loan.installments.forEach(tnx => {
           this.remainingAmount += tnx.amount
         })
         this.loan = loan
