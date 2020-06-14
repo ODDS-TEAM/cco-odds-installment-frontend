@@ -20,33 +20,33 @@
           <v-card-title class="justify-center font-weight-bold headline">ยอดหนี้คงเหลือ</v-card-title>
           <v-card-text
             class="headline font-weight-medium"
-          >{{allLoan.totalRemainingAmount | toFixedTwoDigit}}</v-card-text>
+          >{{allLoan.totalDebt - allLoan.totalPaidAmount | toFixedTwoDigit}}</v-card-text>
         </v-card>
       </v-col>
     </v-row>
-    <div class="d-flex justify-center mt-10">
+    <!-- <div class="d-flex justify-center mt-10">
       <div class="search mt-10">
         <v-text-field v-model="serach" outlined :rules="[rules.min]"></v-text-field>
       </div>
       <div class="ma-10">
         <v-btn @click="serachUser(serach)" class="text-justify" x-large color="success">ค้นหา</v-btn>
       </div>
-    </div>
+    </div>-->
     <div class="table-width mt-10">
       <v-data-table
         disable-sort
         :headers="headers"
-        :items="userList"
+        :items="loans"
         class="elevation-3"
         hide-default-footer
       >
-        <template v-slot:item.name="{ item }">{{item.firstName}} {{item.lastName}}</template>
-        <template v-slot:item.buttun>
-          <v-chip color="green" dark>รายละเอียด</v-chip>
+        <template v-slot:item.title="{item}">{{item.title}}</template>
+        <template v-slot:item.date="{item}">{{item.date}}</template>
+        <template v-slot:item.total="{item}">{{item.total}}</template>
+
+        <template v-slot:item.actions="{item}">
+          <v-icon class="mr-2" @click="seeDetail(item)">mdi-pencil</v-icon>
         </template>
-        <template v-slot:item.totalLoan="{item}">{{item.totalLoan | toFixedTwoDigit}}</template>
-        <template v-slot:item.paidAmount="{item}">{{item.paidAmount | toFixedTwoDigit}}</template>
-        <template v-slot:item.remainingAmount="{item}">{{item.remainingAmount | toFixedTwoDigit}}</template>
       </v-data-table>
     </div>
   </div>
@@ -54,7 +54,7 @@
 
 
 <script>
-import userService from "../services/user-service";
+import loanService from '../services/loan-service'
 export default {
   name: 'DashBoard',
   props: {
@@ -62,56 +62,50 @@ export default {
   },
   data() {
     return {
-      serach: "",
+      serach: '',
       headers: [
-        { text: 'ชื่ิอ-นามสกุล', value: 'name', class: "title font-weight-bold" },
-        { text: 'ยอดหนี้', value: 'totalLoan', class: "title font-weight-bold" },
-        { text: 'ยอดคืน', value: 'paidAmount', class: "title font-weight-bold" },
-        { text: 'ยอดหนี้คงเหลือ', value: 'remainingAmount', class: "title font-weight-bold" },
-        { text: '', value: 'buttun', class: "title font-weight-bold" },
+        {
+          text: 'รายการ',
+          value: 'title'
+        },
+        {
+          text: 'วันที่',
+          value: 'date'
+        },
+        {
+          text: 'ยอดเต็ม',
+          value: 'total'
+        },
+        {
+          text: 'Action',
+          value: 'actions'
+        }
       ],
       rules: {
-        min: v => v.length >= 3 || 'โปรดกรอกชื่ออย่างน้อย 3 ตัวอักษร',
+        min: v => v.length >= 3 || 'โปรดกรอกชื่ออย่างน้อย 3 ตัวอักษร'
       },
       allLoan: {
-        "totalDebt": 0, "totalPaidAmount": 0, "totalRemainingAmount": 0
+        totalDebt: 0,
+        totalPaidAmount: 0
       },
-      userList: []
-    }
-
-  },
-  watch: {
-    serach: function (value) {
-      if (value.length == 0) {
-        this.getUserList()
-      }
-
+      loans: []
     }
   },
   mounted() {
-    this.getFinancials()
-    this.getUserList()
+    this.fetchLoans().then(() => {
+      this.loans.forEach(eachLoad => {
+        this.allLoan.totalDebt += eachLoad.total
+      })
+    })
   },
   methods: {
-    getUserList() {
-      userService.getUserList().then(
-        response => {
-          this.userList = response.data
-        }
-      )
-    },
-    getFinancials() {
-      userService.getTotalLoan().then(res => {
-        this.allLoan = res.data[0]
-
+    fetchLoans() {
+      return loanService.getAllLoans().then(loans => {
+        this.loans = loans
       })
     },
-    serachUser(name) {
-      if (name.length >= 3) {
-        userService.getUserByName(name).then(res => {
-          this.userList = res.data
-        })
-      }
+    seeDetail(loan) {
+      this.$router.push({ name: 'IndividualLoan', params: { id: loan._id } })
     }
   }
 }

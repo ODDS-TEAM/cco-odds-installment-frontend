@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import DashBoard from '../views/DashBoard.vue'
-
+import IndividualLoan from '../views/IndividualLoan.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -9,6 +9,16 @@ const routes = [
     path: "/",
     name: "DashBoard",
     component: DashBoard
+  },
+  {
+    path: "/loans",
+    name: "Loans",
+    component: DashBoard
+  },
+  {
+    path: "/loans/:id",
+    name: "IndividualLoan",
+    component: IndividualLoan
   },
 ];
 

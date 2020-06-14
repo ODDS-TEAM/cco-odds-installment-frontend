@@ -3,10 +3,12 @@
     <v-app-bar color="white" position="center">
       <v-row>
         <v-col cols="2">
-          <v-img src="../assets/odds_logo.png" height="40" max-width="120"></v-img>
+          <router-link to="/">
+            <v-img src="../assets/odds_logo.png" height="40" max-width="120"></v-img>
+          </router-link>
         </v-col>
         <v-col col="2">
-          <v-toolbar-title class="font-color">ODDS Installment Summary</v-toolbar-title>
+          <v-toolbar-title class="font-color">ODDS Installment</v-toolbar-title>
         </v-col>
         <v-col cols="2"></v-col>
       </v-row>
