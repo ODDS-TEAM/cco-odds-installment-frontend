@@ -24,26 +24,19 @@
         </v-card>
       </v-col>
     </v-row>
-    <!-- <div class="d-flex justify-center mt-10">
-      <div class="search mt-10">
-        <v-text-field v-model="serach" outlined :rules="[rules.min]"></v-text-field>
-      </div>
-      <div class="ma-10">
-        <v-btn @click="serachUser(serach)" class="text-justify" x-large color="success">ค้นหา</v-btn>
-      </div>
-    </div>-->
     <div class="table-width mt-10">
-      <v-data-table
-        disable-sort
-        :headers="headers"
-        :items="loans"
-        class="elevation-3"
-        hide-default-footer
-      >
-        <template v-slot:item.title="{item}">{{item.title}}</template>
-        <template v-slot:item.date="{item}">{{item.date}}</template>
-        <template v-slot:item.total="{item}">{{item.total}}</template>
-
+      <v-card-title>
+        รายการ
+        <v-spacer></v-spacer>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Search"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-card-title>
+      <v-data-table :headers="headers" :items="loans" :search="search" class="elevation-3">
         <template v-slot:item.actions="{item}">
           <v-icon class="mr-2" @click="seeDetail(item)">mdi-pencil</v-icon>
         </template>
@@ -62,7 +55,7 @@ export default {
   },
   data() {
     return {
-      serach: '',
+      search: '',
       headers: [
         {
           text: 'รายการ',

@@ -5,22 +5,19 @@ function getAllLoans() {
     })
 }
 
-async function getAllInstallmentsById(loanId) {
-    // return axios.get('/loans/' + loanId).then(tnx => {
-    //     return tnx.data
-    // })
-    console.log(loanId);
-    return [
-        {
-            submitDate: new Date(),
-            amount: 100,
-            remark: "Yeah!"
-        }
-    ]
+async function getLoanById(loanId) {
+    return axios.get('/loans/' + loanId).then(tnx => {
+        return tnx.data
+    })
+}
+
+async function addInstallmentItem(installment) {
+    return axios.post('loans/' + installment.loanId + '/installments', installment)
 }
 
 
 export default {
     getAllLoans,
-    getAllInstallmentsById
+    getLoanById,
+    addInstallmentItem
 };
