@@ -15,9 +15,15 @@ async function addInstallmentItem(installment) {
     return axios.post('loans/' + installment.loanId + '/installments', installment)
 }
 
+function getTotalPaidAmount() {
+    return axios.get('/loans/amount/remaining').then((res) => {
+        return res.data
+    })
+}
 
 export default {
     getAllLoans,
     getLoanById,
-    addInstallmentItem
+    addInstallmentItem,
+    getTotalPaidAmount
 };

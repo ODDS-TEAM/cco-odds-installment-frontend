@@ -88,6 +88,7 @@ export default {
         this.allLoan.totalDebt += eachLoad.total
       })
     })
+    this.getTotalPaidAmount()
   },
   methods: {
     fetchLoans() {
@@ -97,6 +98,11 @@ export default {
     },
     seeDetail(loan) {
       this.$router.push({ name: 'IndividualLoan', params: { id: loan._id } })
+    },
+    getTotalPaidAmount() {
+      loanService.getTotalPaidAmount().then(res => {
+        this.allLoan.totalPaidAmount = res.amount
+      })
     }
   }
 }
