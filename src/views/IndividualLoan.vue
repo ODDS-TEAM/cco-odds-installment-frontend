@@ -1,32 +1,32 @@
 <template>
   <div>
-    <h1>{{loanTitle}}</h1>
     <v-row justfy="center">
       <v-col cols="4">
         <v-card class="mx-auto" max-width="344" height="150">
-          <v-card-title class="justify-center font-weight-bold headline">{{loanTitle}}</v-card-title>
-          <v-card-text class="headline font-weight-medium">{{1.00 | toFixedTwoDigit}}</v-card-text>
+          <v-card-title class="justify-center font-weight-bold headline">{{loan.title}}</v-card-title>
+          <v-card-text class="headline font-weight-medium">{{loan.total | toFixedTwoDigit}}</v-card-text>
         </v-card>
       </v-col>
       <v-col cols="4">
         <v-card class="mx-auto" max-width="344" height="150">
           <v-card-title class="justify-center font-weight-bold headline">คืนแล้ว</v-card-title>
-          <v-card-text class="headline font-weight-medium">{{1 | toFixedTwoDigit}}</v-card-text>
+          <v-card-text class="headline font-weight-medium">{{remainingAmount | toFixedTwoDigit}}</v-card-text>
         </v-card>
       </v-col>
       <v-col cols="4">
         <v-card class="mx-auto" max-width="344" height="150">
           <v-card-title class="justify-center font-weight-bold headline">คงเหลือ</v-card-title>
-          <v-card-text class="headline font-weight-medium">{{1 | toFixedTwoDigit}}</v-card-text>
+          <v-card-text
+            class="headline font-weight-medium"
+          >{{loan.total - remainingAmount | toFixedTwoDigit}}</v-card-text>
         </v-card>
       </v-col>
     </v-row>
 
     <div class="table-width mt-10">
       <v-data-table
-        disable-sort
         :headers="headers"
-        :items="installments"
+        :items="loan.installments"
         class="elevation-3"
         hide-default-footer
       >
@@ -79,7 +79,6 @@ export default {
   name: 'IndevidualLoan',
   data() {
     return {
-      loanTitle: 'MBP for ATB',
       headers: [
         {
           text: 'วันที่',
@@ -94,33 +93,36 @@ export default {
           value: 'remark'
         }
       ],
-      installments: [],
+      loan: {
+        total: 0
+      },
       dialog: false,
       installment: {
         submitDate: new Date(),
         amount: 0,
         remark: '-',
         loanId: ''
-      }
+      },
+      remainingAmount: 0
     }
   },
   mounted() {
-    this.init()
     this.getLoanById()
   },
   methods: {
-    init() {
-      this.installment.loanId = this.$route.params.id
-    },
     getLoanById() {
       return loanService.getLoanById(this.$route.params.id).then(loan => {
-        this.installments = loan.installments
+        this.loan.installments.forEach(tnx => {
+          this.remainingAmount += tnx.amount
+        })
+        this.loan = loan
       })
     },
     close() {
       this.dialog = false
     },
     save() {
+      this.installment.loanId = this.$route.params.id
       loanService.addInstallmentItem(this.installment).then(() => {
         return this.getLoanById().then(() => {
           this.dialog = false
