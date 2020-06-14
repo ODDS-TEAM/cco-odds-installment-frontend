@@ -36,7 +36,7 @@
       </v-card-title>
       <v-data-table :headers="headers" :items="loans" :search="search" class="elevation-3">
         <template v-slot:item.actions="{item}">
-          <v-icon class="mr-2" @click="seeDetail(item)">mdi-pencil</v-icon>
+          <v-icon class="mr-2" @click="seeDetail(item)">mdi-account-cash</v-icon>
         </template>
       </v-data-table>
     </div>
