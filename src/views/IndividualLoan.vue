@@ -102,8 +102,8 @@ export default {
         amount: 0,
         remark: '-',
         loanId: ''
-      },
-      remainingAmount: 0
+      }
+      //   remainingAmount: 0
     }
   },
   mounted() {
@@ -112,9 +112,6 @@ export default {
   methods: {
     getLoanById() {
       return loanService.getLoanById(this.$route.params.id).then(loan => {
-        loan.installments.forEach(tnx => {
-          this.remainingAmount += tnx.amount
-        })
         this.loan = loan
       })
     },
@@ -128,6 +125,17 @@ export default {
           this.dialog = false
         })
       })
+    }
+  },
+  computed: {
+    remainingAmount: function() {
+      let amount = 0
+      if (this.loan.installments) {
+        this.loan.installments.forEach(tnx => {
+          amount += tnx.amount
+        })
+      }
+      return amount
     }
   }
 }
