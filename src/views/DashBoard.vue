@@ -60,6 +60,10 @@ export default {
           value: 'title'
         },
         {
+          text: 'ชื่อ',
+          value: 'user.name'
+        },
+        {
           text: 'วันที่',
           value: 'date'
         },
